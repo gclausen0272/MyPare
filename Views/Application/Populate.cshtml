@@ -1,0 +1,39 @@
+@{
+    ViewBag.Title = "Populate";
+}
+@model Query
+ @{
+    ViewBag.Title = "New Session? Fill this out and we can get started!";
+}
+
+<h1>@ViewBag.Title</h1>
+@using(Html.BeginForm()){
+  <div class="form-group">
+    @Html.LabelFor(model => model.SessionID)
+    @Html.TextBoxFor(model => model.SessionID, new { @class="form-control"}) 
+    @Html.LabelFor(model => model.Location)
+    @Html.TextBoxFor(model => model.Location, new { @class="form-control"}) 
+    @Html.LabelFor(model => model.Term)
+    @Html.TextBoxFor(model => model.Term, new { @class="form-control"}) 
+    @Html.LabelFor(model => model.MaxLocations)
+    @Html.TextBoxFor(model => model.MaxLocations, new { @class="form-control"}) 
+    @Html.LabelFor(model => model.Enough)
+    @Html.TextBoxFor(model => model.Enough, new { @class="form-control"}) 
+  </div>
+ @* type="submit" class="btn btn-default"  *@
+     <button type="submit" class="btn btn-default">Submit</button>
+}
+<h2>Restaurants in your area</h2>
+
+<ul>
+    @for (int i = 0; i < ViewBag.NumTimes; i++)
+    {
+        <li>@ViewBag.Message</li>
+    }
+</ul>
+<h2> Now lets get you Pared! </h2><br>
+<b>How does this work: </b><p>all you have to do is swipe right if you would eat there, and swipe left if you wouldn't
+    <p>send the pare link below to the person you want to eat with and</p>
+</p><p>We'll do the rest, to create the perfect Pare</p>
+
+@Html.ActionLink("Find My Pare", "CreateMatches", new { sessionId = ViewBag.sessionId, index = 0, name = ViewBag.first,score = 0,enough = ViewBag.Enough, first = true })

@@ -1,0 +1,18 @@
+@model Restaurant
+@{
+    ViewBag.Title = "New Author";
+}
+
+<h1>@ViewBag.Title</h1>
+@using(Html.BeginForm()){
+  <div class="form-group">
+    @Html.LabelFor(model => model.Name)
+    @Html.TextBoxFor(model => model.SessionID, new { @class="form-control"}) 
+  </div>
+  <div class="form-group">
+    @Html.LabelFor(model => model.Name)
+    @Html.TextBoxFor(model => model.SessionID, new { @class="form-control"}) 
+  </div>
+ @* type="submit" class="btn btn-default"  *@
+  <button onclick = "getRest(40, 73)">Submit</button>
+}
