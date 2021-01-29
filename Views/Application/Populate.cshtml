@@ -9,8 +9,6 @@
 <h1>@ViewBag.Title</h1>
 @using(Html.BeginForm()){
   <div class="form-group">
-    @Html.LabelFor(model => model.SessionID)
-    @Html.TextBoxFor(model => model.SessionID, new { @class="form-control"}) 
     @Html.LabelFor(model => model.Location)
     @Html.TextBoxFor(model => model.Location, new { @class="form-control"}) 
     @Html.LabelFor(model => model.Term)
