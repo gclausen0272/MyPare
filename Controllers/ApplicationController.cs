@@ -235,7 +235,7 @@ namespace Pare.Controllers
             ViewBag.sessionId = sessionId;
             ViewBag.enough = enough;
             //creates the client 
-            var client = new Yelp.Api.Client("verification information");
+            var client = new Yelp.Api.Client("4WgqC1MIi3IvdAaLa9H4i3EFbSZvbhNZN-89cqASmQElUsYH8hc89_UapfP0XKTbUgOoQp10q_3Me1vfH2VaTBh_dNnTld4GMQuMdHYdNAObPiDBt1Ts6w0V3qcAYHYx");
             Yelp.Api.Models.SearchRequest sr = new Yelp.Api.Models.SearchRequest();
             sr.Location = location; 
             sr.Term = "restaurants " + term;    
