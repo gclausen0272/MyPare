@@ -20,6 +20,12 @@ namespace Pare.Controllers
     public class ApplicationController : Controller
     {
 
+    readonly EFCoreWebDemoContext _libraryContext;  
+  
+    public ApplicationController(EFCoreWebDemoContext context)  
+    {  
+        _libraryContext = context;  
+    }  
     internal string ScrapeWebsite(string url)
     {
         Console.WriteLine(url);
@@ -122,7 +128,7 @@ namespace Pare.Controllers
         {   
             
             int id = 0;
-            var db =await new EFCoreWebDemoContext().Restaurants.ToArrayAsync();
+            var db = _libraryContext.Restaurants.ToArray();
             id = db[db.Length-1].SessionID;
             id++;
             ViewBag.Message = id;
@@ -160,15 +166,14 @@ namespace Pare.Controllers
         }
         public async Task<ActionResult> CreateMatches(int sessionId, int index=0, int score=0, string name="Something went wrong on our end!", int enough=2, bool first = false){
             ViewBag.Enough = enough;
-            using (var d = new EFCoreWebDemoContext()){
-                var res = await d.Restaurants.Where(k => k.SessionID == sessionId).Where(b => (b.Name == name)).ToArrayAsync();
+                var res =  _libraryContext.Restaurants.Where(k => k.SessionID == sessionId).Where(b => (b.Name == name)).ToArray();
                 var result = res[0];
                 if (result != null){ 
                     result.Score = result.Score+score;
-                    d.SaveChanges();
+                    _libraryContext.SaveChanges();
                 }
-            }
-            var db =await new EFCoreWebDemoContext().Restaurants.Where(r=> r.SessionID == sessionId).ToArrayAsync();
+    
+            var db = _libraryContext.Restaurants.Where(r=> r.SessionID == sessionId).ToArray();
             var maybe = isPair(db);
             if(maybe.Score>=enough){
                 ViewBag.url = maybe.Url;
@@ -235,7 +240,7 @@ namespace Pare.Controllers
             ViewBag.sessionId = sessionId;
             ViewBag.enough = enough;
             //creates the client 
-            var client = new Yelp.Api.Client("iinfo");
+            var client = new Yelp.Api.Client("4WgqC1MIi3IvdAaLa9H4i3EFbSZvbhNZN-89cqASmQElUsYH8hc89_UapfP0XKTbUgOoQp10q_3Me1vfH2VaTBh_dNnTld4GMQuMdHYdNAObPiDBt1Ts6w0V3qcAYHYx");
             Yelp.Api.Models.SearchRequest sr = new Yelp.Api.Models.SearchRequest();
             sr.Location = location; 
             sr.Term = "restaurants " + term;    
@@ -317,20 +322,19 @@ namespace Pare.Controllers
             }
 
             //entity fw updates data base 
-           ICollection<Restaurant> db =await new EFCoreWebDemoContext().Restaurants.ToArrayAsync();
-                using (var context = new EFCoreWebDemoContext())
-                {
+           ICollection<Restaurant> db = _libraryContext.Restaurants.ToArray();
+
                 foreach (Restaurant a in rest ){         
-                    context.Add(a);
+                    _libraryContext.Add(a);
                 }
 
                 //saves changes 
-                await context.SaveChangesAsync();
+                await _libraryContext.SaveChangesAsync();
             
                 ViewBag.Message = ans;
                 ViewBag.NumTimes = 1;
                 return View();
-            }
+            
         }
         private bool ContainsRest(string name, IList r)
         {

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 namespace Pare
 {
@@ -24,6 +25,16 @@ namespace Pare
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddDbContext<EFCoreWebDemoContext>(op => op.UseMySql(                     
+                        Configuration["ConnectionString:BoardersDB"],
+                        new MySqlServerVersion(new Version(8, 0, 21)), 
+                         options=> options.EnableRetryOnFailure())
+                    .EnableSensitiveDataLogging()
+                    .EnableDetailedErrors());
+            
+            
+            // .UseSqlServer(Configuration["ConnectionString:BoardersDB"])); } 
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

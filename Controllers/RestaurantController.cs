@@ -8,15 +8,21 @@ namespace Pare.Controllers
 {
     public class RestaurantController : Controller
     {
+    readonly EFCoreWebDemoContext _libraryContext;  
+  
+    public RestaurantController(EFCoreWebDemoContext context)  
+    {  
+        _libraryContext = context;  
+    } 
 
         //The code in the Index method retrieves all authors from the database and passes them to the View. 
         //The AsNoTracking method is used to prevent the context from unnecessarily tracking the data because
         // it is intended for read-only use. The DbContext is instantiated in a using block to ensure that it is disposed properly.
         public async Task<IActionResult> Index()
         {
-            using (var context = new EFCoreWebDemoContext())
+            using (var context = _libraryContext)
             {
-                var model = await context.Restaurants.AsNoTracking().ToListAsync();
+                var model = context.Restaurants;
                 return View(model);
             }
             
@@ -30,18 +36,16 @@ namespace Pare.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([Bind("FirstName, LastName")] Restaurant author)
         {
-           ICollection<Restaurant> db =await new EFCoreWebDemoContext().Restaurants.ToArrayAsync();
-            using (var context = new EFCoreWebDemoContext())
-            {
+           ICollection<Restaurant> db =await _libraryContext.Restaurants.ToArrayAsync();
+
               foreach (Restaurant a in db ){
                   if(a.RestaurantID == author.RestaurantID){
                       author.RestaurantID = author.RestaurantID*10+1;
                   }
                 }           
-                 context.Add(author);
-                 await context.SaveChangesAsync();
+                 _libraryContext.Add(author);
+                 await _libraryContext.SaveChangesAsync();
                 return RedirectToAction("Index");
-            }
         }
     }
 }

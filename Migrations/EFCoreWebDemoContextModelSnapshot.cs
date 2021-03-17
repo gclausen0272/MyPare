@@ -26,6 +26,10 @@ namespace Pare.Migrations
                         .HasMaxLength(75)
                         .HasColumnType("varchar(75) CHARACTER SET utf8mb4");
 
+                    b.Property<string>("ImageUrl")
+                        .HasMaxLength(2083)
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<string>("Name")
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4");
@@ -35,6 +39,13 @@ namespace Pare.Migrations
 
                     b.Property<int>("SessionID")
                         .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .HasMaxLength(2083)
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("menuUrl")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("RestaurantID");
 
