@@ -62,9 +62,8 @@ img {margin-bottom: -8px;}
     <div class="w3-col l4 m6">
       <img src="https://i.imgur.com/FBuKdnV_d.webp?maxwidth=760&fidelity=grand"class="w3-image w3-right w3-hide-small" width="335" height="471">
       <div class="w3-center w3-hide-large w3-hide-medium">
-        <button class="w3-button w3-block w3-padding-large" onclick="document.getElementById('download').style.display='block'">
-          <i class="fa fa-download"></i> Download Application
-        </button>
+        <p> @Html.ActionLink("Get Started", "Landing",null, routeValues: null, htmlAttributes: new { @class = "w3-button w3-block w3-green w3-round", @role="button" })</p>
+
         <img src="https://i.imgur.com/MfTJrnz_d.webp?maxwidth=760&fidelity=grand" class="w3-image w3-margin-top" width="335" height="471">
       </div>
     </div>
