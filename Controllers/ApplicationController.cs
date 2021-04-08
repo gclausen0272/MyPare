@@ -165,15 +165,17 @@ namespace Pare.Controllers
             return st;
         }
         public async Task<ActionResult> CreateMatches(int sessionId, int index=0, int score=0, string name="Something went wrong on our end!", int enough=2, bool first = false){
+            try{
             ViewBag.Enough = enough;
-                var res =  _libraryContext.Restaurants.Where(k => k.SessionID == sessionId).Where(b => (b.Name == name)).ToArray();
+                var db = _libraryContext.Restaurants.Where(r=> r.SessionID == sessionId).ToArray();
+                var res =  db.Where(k => k.Name == name).ToArray();
                 var result = res[0];
                 if (result != null){ 
                     result.Score = result.Score+score;
                     _libraryContext.SaveChanges();
                 }
     
-            var db = _libraryContext.Restaurants.Where(r=> r.SessionID == sessionId).ToArray();
+            // var db = _libraryContext.Restaurants.Where(r=> r.SessionID == sessionId).ToArray();
             var maybe = isPair(db);
             if(maybe.Score>=enough){
                 ViewBag.url = maybe.Url;
@@ -196,8 +198,6 @@ namespace Pare.Controllers
                     name = db[index].Name;
                     ViewBag.name = db[index].Name;
                     score = 0;
-                    // Console.WriteLine(ScrapeWebsite(db[index].Url));
-                    // Console.WriteLine(db[index].Description);
                     ViewBag.Description = db[index].Description;
                     ViewBag.sessionId = sessionId;
                     ViewBag.menu =toMenuUrl(db[index].Url);
@@ -210,6 +210,12 @@ namespace Pare.Controllers
                     ViewBag.Message = add;
                     return View();
                 } 
+            }
+            }
+            catch(Exception e){              
+                    ViewBag.Message = "Sorry friend thats all we got!";
+                    ViewBag.ImageUrl = "https://cdn3.volusion.com/euhfr.xvuyx/v/vspfiles/photos/EG1155-1374-2.jpg?v-cache=1325487014";
+                    return View();
             }
 
         }
